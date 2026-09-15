@@ -1,16 +1,34 @@
 package org.example
 
+import org.example.model.BoxEspecialidad
+import org.example.model.BoxGeneral
+import org.example.model.BoxUrgencia
+import org.example.model.TipoCliente
+import kotlinx.coroutines.coroutineScope
+import org.example.service.Funciones
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
+suspend fun main() = coroutineScope () {
+    val gestor = Funciones()
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+    val box1 = BoxGeneral("RN12PA","Juan Perez", TipoCliente.Isapre)
+    val box2 = BoxGeneral("RN99ZA","Maria Lopez", TipoCliente.Particular)
+    val box3 = BoxEspecialidad("RN12PA","Juan Perez", TipoCliente.Particular)
+    val box4 = BoxUrgencia("RN44RG","Ana Torres", TipoCliente.Fonasa,false)
+    val box5 = BoxUrgencia("RN77RG","Luis Soto", TipoCliente.Particular,false)
+
+    try {
+        gestor.registrarIngreso(box3)
+        gestor.registrarIngreso(box5)
+        gestor.registrarSalida(2, 45)
+        gestor.registrarIngreso(box5)
+        gestor.registrarSalida(100, 45)
+        gestor.registrarSalida(1, 45)
     }
+    catch (e: Exception) {
+        println(e)
+    }
+
+
 }
